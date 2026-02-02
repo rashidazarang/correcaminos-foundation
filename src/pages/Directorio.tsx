@@ -1,56 +1,249 @@
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
+import { Search, ChevronDown } from "lucide-react";
+import { mockMiembros } from "@/data/mockMiembros";
+import { Miembro } from "@/types/miembro";
+import { MiembroModal } from "@/components/MiembroModal";
 
-const Directorio = () => {
-  const members = [
-    { name: "Carlos Mendoza", role: "Capitán", pace: "4:15/km" },
-    { name: "Ana Rodríguez", role: "Co-Capitana", pace: "4:45/km" },
-    { name: "Roberto Garza", role: "Coach", pace: "4:30/km" },
-    { name: "María Fernanda López", role: "Coordinadora Social", pace: "5:10/km" },
-  ];
+const MiembroCard = ({
+  miembro,
+  onClick,
+  delay,
+}: {
+  miembro: Miembro;
+  onClick: () => void;
+  delay: number;
+}) => {
+  const iniciales = miembro.nombreCompleto
+    .split(" ")
+    .slice(0, 2)
+    .map((n) => n[0])
+    .join("");
 
   return (
-    <div className="pt-20 md:pt-24">
-      <section className="section-editorial">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay }}
+      onClick={onClick}
+      className="bg-white p-6 cursor-pointer transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+    >
+      <div className="text-center">
+        {/* Photo */}
+        {miembro.fotoPerfil ? (
+          <img
+            src={miembro.fotoPerfil}
+            alt={miembro.nombreCompleto}
+            className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full object-cover mx-auto mb-4 border-2 border-crema-jersey"
+          />
+        ) : (
+          <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full bg-gris-calzada/15 flex items-center justify-center mx-auto mb-4 border-2 border-crema-jersey">
+            <span className="font-display text-2xl md:text-3xl text-gris-humo">
+              {iniciales}
+            </span>
+          </div>
+        )}
+
+        <h3 className="font-display text-lg text-foreground mb-1">
+          {miembro.nombreCompleto}
+        </h3>
+        <p className="font-body text-sm text-gris-humo mb-4">
+          Miembro desde {miembro.añoIngreso}
+        </p>
+
+        {/* Divider */}
+        <div className="w-full h-[1px] bg-gris-calzada/20 mb-4" />
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3 text-left">
+          <div className="flex items-center gap-2">
+            <span>🏃</span>
+            <span className="font-body text-sm text-foreground">
+              {miembro.maratonesTotales} maratones
+            </span>
+          </div>
+          {miembro.prMaraton && (
+            <div className="flex items-center gap-2">
+              <span>⏱️</span>
+              <span className="font-mono text-sm text-primary">
+                {miembro.prMaraton}
+              </span>
+            </div>
+          )}
+          {miembro.vecesBoston && miembro.vecesBoston > 0 && (
+            <div className="flex items-center gap-2 col-span-2">
+              <span>🏆</span>
+              <span className="font-body text-sm text-foreground">
+                {miembro.vecesBoston}x Boston
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const Directorio = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [yearFilter, setYearFilter] = useState<string>("todos");
+  const [marathonFilter, setMarathonFilter] = useState<string>("todos");
+  const [selectedMiembro, setSelectedMiembro] = useState<Miembro | null>(null);
+
+  const years = useMemo(() => {
+    const uniqueYears = [...new Set(mockMiembros.map((m) => m.añoIngreso))].sort(
+      (a, b) => b - a
+    );
+    return uniqueYears;
+  }, []);
+
+  const filteredMiembros = useMemo(() => {
+    return mockMiembros.filter((miembro) => {
+      // Search filter
+      if (
+        searchTerm &&
+        !miembro.nombreCompleto.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Year filter
+      if (yearFilter !== "todos" && miembro.añoIngreso !== parseInt(yearFilter)) {
+        return false;
+      }
+
+      // Marathon filter
+      if (marathonFilter !== "todos") {
+        const marathons = miembro.maratonesTotales;
+        switch (marathonFilter) {
+          case "1-10":
+            if (marathons < 1 || marathons > 10) return false;
+            break;
+          case "11-25":
+            if (marathons < 11 || marathons > 25) return false;
+            break;
+          case "26-50":
+            if (marathons < 26 || marathons > 50) return false;
+            break;
+          case "50+":
+            if (marathons <= 50) return false;
+            break;
+        }
+      }
+
+      return true;
+    });
+  }, [searchTerm, yearFilter, marathonFilter]);
+
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="relative h-[40vh] w-full bg-negro-asfalto flex items-center justify-center">
+        <div className="text-center px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-display text-4xl sm:text-5xl md:text-6xl text-blanco-sal font-medium tracking-tight"
+          >
+            DIRECTORIO
+          </motion.h1>
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-4 font-body text-lg md:text-xl text-gris-humo"
           >
-            <span className="label-sm mb-4 block">Directorio</span>
-            <h1 className="headline-xl text-foreground">
-              Las caras detrás
-              <span className="block text-secondary">de cada kilómetro</span>
-            </h1>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {members.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-crema-jersey p-8 flex items-center gap-6"
-              >
-                <div className="w-20 h-20 bg-gris-calzada/30 rounded-full flex-shrink-0" />
-                <div>
-                  <h3 className="font-display text-xl font-medium text-foreground">
-                    {member.name}
-                  </h3>
-                  <p className="text-muted-foreground font-body">{member.role}</p>
-                  <span className="stat-display text-sm mt-1 block">
-                    {member.pace}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+            Nuestra Comunidad
+          </motion.p>
         </div>
       </section>
-    </div>
+
+      {/* Filters */}
+      <div className="sticky top-16 md:top-20 z-30 bg-blanco-sal shadow-subtle">
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gris-humo" />
+              <input
+                type="text"
+                placeholder="Buscar por nombre..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-transparent border border-gris-calzada/30 text-foreground font-body focus:border-primary focus:outline-none transition-colors"
+              />
+            </div>
+
+            {/* Year Filter */}
+            <div className="relative">
+              <select
+                value={yearFilter}
+                onChange={(e) => setYearFilter(e.target.value)}
+                className="appearance-none w-full md:w-48 px-4 py-3 pr-10 bg-transparent border border-gris-calzada/30 text-foreground font-body focus:border-primary focus:outline-none cursor-pointer"
+              >
+                <option value="todos">Año: Todos</option>
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gris-humo pointer-events-none" />
+            </div>
+
+            {/* Marathon Filter */}
+            <div className="relative">
+              <select
+                value={marathonFilter}
+                onChange={(e) => setMarathonFilter(e.target.value)}
+                className="appearance-none w-full md:w-48 px-4 py-3 pr-10 bg-transparent border border-gris-calzada/30 text-foreground font-body focus:border-primary focus:outline-none cursor-pointer"
+              >
+                <option value="todos">Maratones: Todos</option>
+                <option value="1-10">1-10</option>
+                <option value="11-25">11-25</option>
+                <option value="26-50">26-50</option>
+                <option value="50+">50+</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gris-humo pointer-events-none" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Members Grid */}
+      <section className="bg-blanco-sal py-12 md:py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          {filteredMiembros.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {filteredMiembros.map((miembro, index) => (
+                <MiembroCard
+                  key={miembro.id}
+                  miembro={miembro}
+                  onClick={() => setSelectedMiembro(miembro)}
+                  delay={index * 0.05}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="font-body text-lg text-gris-humo">
+                No se encontraron miembros con esos filtros.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Modal */}
+      <MiembroModal
+        miembro={selectedMiembro}
+        isOpen={!!selectedMiembro}
+        onClose={() => setSelectedMiembro(null)}
+      />
+    </>
   );
 };
 
