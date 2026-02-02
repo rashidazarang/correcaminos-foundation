@@ -2,8 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { LoadingScreen } from "@/components/LoadingScreen";
+import { PageTransition } from "@/components/PageTransition";
 import Index from "./pages/Index";
 import LoQueSomos from "./pages/LoQueSomos";
 import Directorio from "./pages/Directorio";
@@ -18,26 +22,38 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Index /></PageTransition>} />
+        <Route path="/lo-que-somos" element={<PageTransition><LoQueSomos /></PageTransition>} />
+        <Route path="/directorio" element={<PageTransition><Directorio /></PageTransition>} />
+        <Route path="/hall-of-fame" element={<PageTransition><HallOfFame /></PageTransition>} />
+        <Route path="/numeros" element={<PageTransition><Numeros /></PageTransition>} />
+        <Route path="/galeria" element={<PageTransition><Galeria /></PageTransition>} />
+        <Route path="/diario" element={<PageTransition><Diario /></PageTransition>} />
+        <Route path="/formar-parte" element={<PageTransition><FormarParte /></PageTransition>} />
+        <Route path="/gear" element={<PageTransition><Gear /></PageTransition>} />
+        <Route path="/contacto" element={<PageTransition><Contacto /></PageTransition>} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <LoadingScreen />
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Layout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/lo-que-somos" element={<LoQueSomos />} />
-            <Route path="/directorio" element={<Directorio />} />
-            <Route path="/hall-of-fame" element={<HallOfFame />} />
-            <Route path="/numeros" element={<Numeros />} />
-            <Route path="/galeria" element={<Galeria />} />
-            <Route path="/diario" element={<Diario />} />
-            <Route path="/formar-parte" element={<FormarParte />} />
-            <Route path="/gear" element={<Gear />} />
-            <Route path="/contacto" element={<Contacto />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AnimatedRoutes />
         </Layout>
       </BrowserRouter>
     </TooltipProvider>
