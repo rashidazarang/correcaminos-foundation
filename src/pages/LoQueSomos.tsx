@@ -1,63 +1,203 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const LoQueSomos = () => {
+  const manifestoRef = useRef(null);
+  const manifestoInView = useInView(manifestoRef, { once: true, margin: "-100px" });
+
+  const codigoRef = useRef(null);
+  const codigoInView = useInView(codigoRef, { once: true, margin: "-100px" });
+
+  const resumenRef = useRef(null);
+  const resumenInView = useInView(resumenRef, { once: true, margin: "-50px" });
+
+  const valores = [
+    {
+      titulo: "La Amistad es el Core",
+      descripcion: "Para nosotros, la convivencia y los lazos reales son lo primero. Corremos juntos, crecemos juntos.",
+    },
+    {
+      titulo: "Crecimiento Orgánico",
+      descripcion: "El club crece solo por invitación. Sumamos a amigos y familia que tengan el potencial y las ganas de adoptar nuestros valores. Calidad sobre cantidad, siempre.",
+    },
+    {
+      titulo: "Integridad Total",
+      descripcion: "Buscamos personas reales, honestas y de buena conducta. Gente que valore a su familia y que busque sumar algo positivo a la sociedad.",
+    },
+    {
+      titulo: "Respeto al Entorno",
+      descripcion: "El asfalto es nuestra cancha y lo respetamos. Cuidamos el medio ambiente y seguimos las reglas. La seguridad no se negocia.",
+    },
+    {
+      titulo: "Rendimiento al Máximo",
+      descripcion: "Nos apoyamos para que cada miembro explote su potencial deportivo. Si quieres mejorar, el club es tu plataforma.",
+    },
+    {
+      titulo: "Squads con Propósito",
+      descripcion: "Fomentamos la creación de subgrupos con metas claras: mismos maratones, mismos horarios, mismo paso. Encuentra tu lugar dentro de la comunidad.",
+    },
+  ];
+
   return (
-    <div className="pt-20 md:pt-24">
-      <section className="section-editorial">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
+    <>
+      {/* Hero Section */}
+      <section className="relative h-[50vh] w-full bg-negro-asfalto flex items-center justify-center">
+        <div className="text-center px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-display text-4xl sm:text-5xl md:text-6xl text-blanco-sal font-medium tracking-tight"
+          >
+            LO QUE SOMOS
+          </motion.h1>
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-6 font-body text-lg md:text-xl text-gris-humo italic"
           >
-            <span className="label-sm mb-4 block">Lo Que Somos</span>
-            <h1 className="headline-xl text-foreground mb-8">
-              Una tribu que corre
-              <span className="block text-primary">hacia adelante</span>
-            </h1>
-            <p className="body-lg max-w-2xl">
-              Club Correcaminos nació en 2018 de un grupo de amigos que 
-              compartían algo más que kilómetros: una filosofía de vida 
-              basada en la disciplina, la comunidad y el amor por el asfalto.
-            </p>
-          </motion.div>
+            El Manifiesto Correcaminos
+          </motion.p>
         </div>
       </section>
 
-      <section className="section-editorial bg-crema-jersey">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h3 className="headline-md mb-4">Nuestra Filosofía</h3>
-              <p className="body-md">
-                Creemos que correr es un acto de transformación. Cada 
-                entrenamiento es una oportunidad para conocernos mejor, 
-                superar barreras mentales y construir una versión más 
-                fuerte de nosotros mismos.
-              </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <h3 className="headline-md mb-4">Nuestro Compromiso</h3>
-              <p className="body-md">
-                Nos reunimos cada domingo a las 6 AM, sin excusas. 
-                Entrenamos juntos, celebramos juntos, y nos apoyamos 
-                en cada meta—desde el primer 5K hasta el maratón.
-              </p>
-            </motion.div>
+      {/* El Manifiesto Section */}
+      <section ref={manifestoRef} className="bg-blanco-sal py-24 md:py-32 px-6">
+        <div className="max-w-3xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={manifestoInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="font-body text-xl md:text-2xl leading-loose text-foreground"
+          >
+            El Club Correcaminos no es solo un grupo que sale a correr; es nuestro equipo, 
+            nuestro soporte y nuestra red. Aquí el ejercicio es el pretexto para forjar amistades reales.
+          </motion.p>
+
+          {/* Pull Quote */}
+          <motion.blockquote
+            initial={{ opacity: 0, y: 30 }}
+            animate={manifestoInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="my-16 md:my-20 relative"
+          >
+            <span className="absolute -top-8 -left-4 font-display text-8xl md:text-9xl text-primary/30 leading-none select-none">
+              "
+            </span>
+            <p className="font-display text-2xl md:text-3xl lg:text-4xl italic text-secondary leading-snug pl-4 md:pl-8">
+              Juntos, somos el motor que te mantiene constante cuando las ganas fallan 
+              y el crew que celebra tus objetivos como si fueran propios.
+            </p>
+            <span className="absolute -bottom-12 right-0 font-display text-8xl md:text-9xl text-primary/30 leading-none select-none">
+              "
+            </span>
+          </motion.blockquote>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={manifestoInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="font-body text-lg md:text-xl text-muted-foreground text-center mt-16"
+          >
+            Corremos solos, pero llegamos juntos.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Nuestro Código Section */}
+      <section ref={codigoRef} className="bg-crema-jersey py-20 md:py-28 px-6">
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={codigoInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="font-display text-3xl md:text-4xl text-foreground font-medium tracking-tight">
+              LO QUE NOS MUEVE
+            </h2>
+            <p className="mt-4 font-body text-lg text-gris-humo">
+              Nuestro Código
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {valores.map((valor, index) => (
+              <motion.div
+                key={valor.titulo}
+                initial={{ opacity: 0, y: 30 }}
+                animate={codigoInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-blanco-sal border-l-4 border-primary p-8 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+              >
+                <h3 className="font-display text-xl text-foreground mb-3">
+                  {valor.titulo}
+                </h3>
+                <p className="font-body text-base text-gris-humo leading-relaxed">
+                  {valor.descripcion}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
-    </div>
+
+      {/* Resumen Section */}
+      <section ref={resumenRef} className="bg-negro-asfalto py-24 md:py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={resumenInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="font-display text-xl md:text-2xl lg:text-3xl text-blanco-sal leading-relaxed"
+          >
+            Esto se trata de juntar a buenas personas para cultivar amistades épicas 
+            mientras devoramos kilómetros.
+          </motion.p>
+
+          <motion.div
+            initial={{ width: 0 }}
+            animate={resumenInView ? { width: 80 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="h-[2px] bg-primary mx-auto mt-10"
+          />
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-negro-asfalto pb-24 md:pb-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="font-display text-2xl md:text-3xl text-blanco-sal mb-10"
+          >
+            ¿LISTO PARA UNIRTE?
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <Link
+              to="/formar-parte"
+              className="group inline-flex items-center gap-3 px-10 py-5 bg-primary text-negro-asfalto font-body font-semibold text-lg tracking-wide transition-colors duration-300 hover:bg-accent"
+            >
+              FORMAR PARTE
+              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 };
 
