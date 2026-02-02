@@ -99,6 +99,20 @@
     @apply font-display font-medium tracking-tight;
   }
 
+  /* Focus States for Accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Interactive Elements Base */
+  a, button, [role="button"], input, select, textarea {
+    @apply transition-all duration-300;
+  }
+
+  a:not([class]), button:not([class]) {
+    @apply cursor-pointer;
+  }
+
   /* Grain Texture Overlay */
   body::after {
     content: '';
@@ -168,5 +182,18 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Interactive utility classes */
+  .interactive {
+    @apply cursor-pointer transition-all duration-300;
+  }
+
+  .interactive-scale {
+    @apply cursor-pointer transition-all duration-300 hover:scale-105;
+  }
+
+  .interactive-lift {
+    @apply cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated;
   }
 }
