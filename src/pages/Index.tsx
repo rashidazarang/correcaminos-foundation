@@ -1,176 +1,208 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero-runners.jpg";
+import { useRef, useState } from "react";
+import { ChevronDown, ArrowRight } from "lucide-react";
+import { useCountUp } from "@/hooks/useCountUp";
+
+const StatItem = ({ value, label, delay }: { value: number; label: string; delay: number }) => {
+  const { count, ref } = useCountUp(value, 2000);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay }}
+      className="text-center py-8"
+    >
+      <span className="font-mono text-5xl md:text-6xl lg:text-7xl text-primary tabular-nums">
+        {count}
+      </span>
+      <p className="mt-4 font-body text-xs uppercase tracking-[0.2em] text-gris-humo">
+        {label}
+      </p>
+    </motion.div>
+  );
+};
 
 const Index = () => {
+  const esenciaRef = useRef(null);
+  const esenciaInView = useInView(esenciaRef, { once: true, margin: "-100px" });
+  const [marqueeHovered, setMarqueeHovered] = useState(false);
+
+  const stats = [
+    { value: 847, label: "Maratones Completados" },
+    { value: 52, label: "Miembros Activos" },
+    { value: 23, label: "Países Corridos" },
+    { value: 12, label: "Años de Historia" },
+  ];
+
+  const placeholderImages = Array(8).fill(null).map((_, i) => ({
+    id: i,
+    gradient: `linear-gradient(135deg, hsl(0 0% ${10 + i * 3}%) 0%, hsl(0 0% ${20 + i * 2}%) 100%)`,
+  }));
+
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Corredores al amanecer"
-            className="w-full h-full object-cover"
+      <section className="relative h-screen w-full overflow-hidden bg-negro-asfalto">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-negro-asfalto via-negro-asfalto/80 to-transparent" />
+
+        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
+          <motion.h1
+            className="font-display text-center"
+          >
+            <motion.span
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-blanco-sal font-medium tracking-tight"
+            >
+              CORREMOS SOLOS
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-blanco-sal font-medium tracking-tight mt-2"
+            >
+              LLEGAMOS JUNTOS
+            </motion.span>
+          </motion.h1>
+
+          {/* Animated line */}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 100 }}
+            transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+            className="h-[2px] bg-primary mt-8"
           />
-          <div className="absolute inset-0 bg-negro-asfalto/40" />
-        </div>
-
-        <div className="relative z-10 h-full flex flex-col justify-end px-6 md:px-12 lg:px-20 pb-20 md:pb-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="label-sm text-blanco-sal/80 mb-4 block">
-              Monterrey, México · Desde 2018
-            </span>
-            <h1 className="headline-xl text-blanco-sal max-w-4xl text-balance">
-              Corremos porque el camino
-              <span className="block text-primary">nos transforma</span>
-            </h1>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-8 flex flex-col sm:flex-row gap-4"
-          >
-            <Link
-              to="/formar-parte"
-              className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground font-body font-medium tracking-wide hover:bg-primary/90 transition-colors"
-            >
-              Únete al Club
-            </Link>
-            <Link
-              to="/lo-que-somos"
-              className="inline-flex items-center justify-center px-8 py-4 border border-blanco-sal/40 text-blanco-sal font-body font-medium tracking-wide hover:bg-blanco-sal/10 transition-colors"
-            >
-              Conoce Más
-            </Link>
-          </motion.div>
         </div>
 
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2"
         >
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="w-6 h-10 rounded-full border-2 border-blanco-sal/40 flex items-start justify-center p-1"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
           >
-            <div className="w-1.5 h-3 bg-blanco-sal/60 rounded-full" />
+            <ChevronDown className="w-8 h-8 text-blanco-sal/60" />
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Stats Section */}
-      <section className="section-editorial bg-crema-jersey">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
+      {/* La Esencia Section */}
+      <section ref={esenciaRef} className="bg-blanco-sal py-24 md:py-32 lg:py-40 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={esenciaInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="font-body text-lg md:text-xl leading-relaxed text-foreground"
           >
-            <span className="label-sm mb-4 block">El Club en Números</span>
-            <h2 className="headline-lg text-foreground mb-16">
-              Cada kilómetro cuenta una historia
-            </h2>
-          </motion.div>
+            El Club Correcaminos no es solo un grupo que sale a correr; es nuestro equipo, 
+            nuestro soporte y nuestra red. Aquí el ejercicio es el pretexto para forjar amistades reales.
+          </motion.p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {[
-              { value: "127", label: "Corredores Activos" },
-              { value: "48,320", label: "Kilómetros en 2025" },
-              { value: "23", label: "Maratones Completados" },
-              { value: "6", label: "Años de Historia" },
-            ].map((stat, index) => (
-              <motion.div
+          <motion.blockquote
+            initial={{ opacity: 0, y: 30 }}
+            animate={esenciaInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-12 md:mt-16"
+          >
+            <p className="font-display text-xl md:text-2xl lg:text-3xl italic text-secondary leading-snug">
+              "Nos apoyamos en cada sesión y nos acompañamos en cada reto hasta que todos alcancemos nuestras metas."
+            </p>
+          </motion.blockquote>
+        </div>
+      </section>
+
+      {/* Números Section */}
+      <section className="bg-negro-asfalto py-20 md:py-28 lg:py-32 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
+            {stats.map((stat, index) => (
+              <StatItem
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center md:text-left"
-              >
-                <span className="stat-display text-4xl md:text-5xl lg:text-6xl block mb-2">
-                  {stat.value}
-                </span>
-                <span className="body-md">{stat.label}</span>
-              </motion.div>
+                value={stat.value}
+                label={stat.label}
+                delay={index * 0.1}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* About Preview Section */}
-      <section className="section-editorial bg-background">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      {/* Galería Marquee Section */}
+      <section className="bg-crema-jersey py-16 md:py-20 overflow-hidden">
+        <div
+          className="relative"
+          onMouseEnter={() => setMarqueeHovered(true)}
+          onMouseLeave={() => setMarqueeHovered(false)}
+        >
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            className="flex gap-4"
+            animate={{
+              x: marqueeHovered ? 0 : "-50%",
+            }}
+            transition={{
+              x: {
+                repeat: marqueeHovered ? 0 : Infinity,
+                repeatType: "loop",
+                duration: 30,
+                ease: "linear",
+              },
+            }}
           >
-            <span className="label-sm mb-4 block">Lo Que Somos</span>
-            <h2 className="headline-lg text-foreground mb-6">
-              Más que un club.
-              <span className="block text-secondary">Una comunidad.</span>
-            </h2>
-            <p className="body-lg mb-8">
-              Somos corredores de Monterrey unidos por la pasión de superar
-              nuestros límites. Cada domingo a las 6 AM, transformamos las
-              calles en nuestro campo de entrenamiento.
-            </p>
-            <Link
-              to="/lo-que-somos"
-              className="link-underline font-body text-foreground font-medium"
-            >
-              Descubre nuestra historia
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="aspect-[4/5] bg-gris-calzada/20 relative overflow-hidden"
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="label-sm text-gris-humo">Próximamente</span>
-            </div>
+            {/* Double the images for seamless loop */}
+            {[...placeholderImages, ...placeholderImages].map((img, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 w-[400px] md:w-[500px] aspect-[3/2] relative overflow-hidden group cursor-pointer"
+              >
+                <div
+                  className="absolute inset-0 transition-all duration-500 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                  style={{ background: img.gradient }}
+                />
+                <div className="absolute inset-0 bg-negro-asfalto/20 group-hover:bg-transparent transition-colors duration-500" />
+              </div>
+            ))}
           </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="section-editorial bg-negro-asfalto">
+      <section className="bg-negro-asfalto py-28 md:py-36 lg:py-44 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
+            className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-blanco-sal tracking-tight"
           >
-            <h2 className="headline-lg text-blanco-sal mb-6 text-balance">
-              ¿Listo para dar el primer paso?
-            </h2>
-            <p className="body-lg text-gris-humo mb-10 max-w-2xl mx-auto">
-              Únete a nuestra comunidad de corredores y descubre hasta dónde
-              pueden llevarte tus propios pies.
-            </p>
+            ¿VIBRAS EN NUESTRA FRECUENCIA?
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-10 md:mt-12"
+          >
             <Link
               to="/formar-parte"
-              className="inline-flex items-center justify-center px-10 py-5 bg-primary text-primary-foreground font-body font-medium text-lg tracking-wide hover:bg-primary/90 transition-colors"
+              className="group inline-flex items-center gap-3 px-8 py-4 border border-blanco-sal text-blanco-sal font-body font-medium tracking-wide transition-all duration-300 hover:bg-primary hover:border-primary hover:text-negro-asfalto"
             >
-              Formar Parte del Club
+              FORMAR PARTE
+              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </motion.div>
         </div>
