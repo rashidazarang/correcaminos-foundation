@@ -12,6 +12,7 @@ import Numeros from "./pages/Numeros";
 import Galeria from "./pages/Galeria";
 import Diario from "./pages/Diario";
 import FormarParte from "./pages/FormarParte";
+import Gear from "./pages/Gear";
 import Contacto from "./pages/Contacto";
 import NotFound from "./pages/NotFound";
 
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/galeria" element={<Galeria />} />
             <Route path="/diario" element={<Diario />} />
             <Route path="/formar-parte" element={<FormarParte />} />
+            <Route path="/gear" element={<Gear />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
