@@ -1,77 +1,98 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Instagram, ExternalLink, Mail, MapPin, ArrowRight } from "lucide-react";
 
 const Contacto = () => {
   return (
-    <div className="pt-20 md:pt-24">
-      <section className="section-editorial">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="label-sm mb-4 block">Contacto</span>
-            <h1 className="headline-xl text-foreground mb-8">
-              Hablemos
-            </h1>
-          </motion.div>
+    <section className="min-h-screen bg-negro-asfalto flex items-center justify-center px-6 py-24">
+      <div className="max-w-lg mx-auto text-center">
+        {/* Logo Placeholder */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="w-32 h-32 mx-auto mb-10 bg-gris-calzada/20 rounded-full flex items-center justify-center"
+        >
+          <span className="font-display text-3xl text-blanco-sal">CC</span>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid md:grid-cols-2 gap-12"
-          >
-            <div>
-              <h2 className="headline-md mb-4">Información</h2>
-              <div className="space-y-4 body-md">
-                <p>
-                  <span className="text-muted-foreground">Email:</span>
-                  <br />
-                  <a href="mailto:contacto@correcaminos.mx" className="text-foreground hover:text-primary transition-colors">
-                    contacto@correcaminos.mx
-                  </a>
-                </p>
-                <p>
-                  <span className="text-muted-foreground">Ubicación:</span>
-                  <br />
-                  Monterrey, Nuevo León, México
-                </p>
-                <p>
-                  <span className="text-muted-foreground">Entrenamientos:</span>
-                  <br />
-                  Domingos 6:00 AM
-                  <br />
-                  Parque Fundidora
-                </p>
-              </div>
-            </div>
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="font-display text-4xl md:text-5xl text-blanco-sal font-medium tracking-tight mb-12"
+        >
+          CONTACTO
+        </motion.h1>
 
-            <div>
-              <h2 className="headline-md mb-4">Síguenos</h2>
-              <div className="space-y-4">
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 body-md text-foreground hover:text-primary transition-colors"
-                >
-                  Instagram →
-                </a>
-                <a
-                  href="https://strava.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 body-md text-foreground hover:text-primary transition-colors"
-                >
-                  Strava →
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+        {/* Contact Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="space-y-6 mb-12"
+        >
+          <a
+            href="mailto:hola@clubcorrecaminos.com"
+            className="flex items-center justify-center gap-3 font-body text-lg text-blanco-sal hover:text-primary transition-colors"
+          >
+            <Mail className="w-5 h-5 text-gris-humo" />
+            hola@clubcorrecaminos.com
+          </a>
+
+          <div className="flex items-center justify-center gap-3 font-body text-lg text-gris-humo">
+            <MapPin className="w-5 h-5" />
+            Monterrey, Nuevo León, México
+          </div>
+        </motion.div>
+
+        {/* Social Icons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex items-center justify-center gap-6 mb-16"
+        >
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 border border-gris-calzada text-blanco-sal hover:border-primary hover:text-primary transition-colors"
+            aria-label="Instagram"
+          >
+            <Instagram className="w-6 h-6" />
+          </a>
+          <a
+            href="https://strava.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-3 border border-gris-calzada text-blanco-sal hover:border-primary hover:text-primary transition-colors"
+            aria-label="Strava"
+          >
+            <ExternalLink className="w-6 h-6" />
+          </a>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <p className="font-body text-gris-humo mb-6">
+            Para formar parte del club, visita nuestra página de ingreso
+          </p>
+          <Link
+            to="/formar-parte"
+            className="group inline-flex items-center gap-2 font-body text-primary hover:text-accent transition-colors"
+          >
+            Formar Parte
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
