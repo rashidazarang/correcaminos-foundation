@@ -48,14 +48,14 @@ export const Header = () => {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isLightPage
+          isLightPage && !isMenuOpen
             ? "bg-blanco-sal shadow-sm"
-            : hasScrolled
+            : hasScrolled || isMenuOpen
               ? "bg-negro-asfalto shadow-lg"
               : "bg-transparent"
         }`}
         style={
-          !isLightPage && hasScrolled && !isMenuOpen
+          !isMenuOpen && !isLightPage && hasScrolled
             ? { backgroundColor: "hsl(0 0% 10% / 0.92)", backdropFilter: "blur(12px)" }
             : undefined
         }
