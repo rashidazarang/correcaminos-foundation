@@ -55,7 +55,7 @@ const Contacto = () => {
           className="flex items-center justify-center gap-6 mb-16"
         >
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/club_correcaminos/"
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 border border-gris-calzada text-blanco-sal hover:border-primary hover:text-primary transition-colors"
@@ -64,7 +64,7 @@ const Contacto = () => {
             <Instagram className="w-6 h-6" />
           </a>
           <a
-            href="https://strava.com"
+            href="https://www.strava.com/clubs/corecaminosmty"
             target="_blank"
             rel="noopener noreferrer"
             className="p-3 border border-gris-calzada text-blanco-sal hover:border-primary hover:text-primary transition-colors"

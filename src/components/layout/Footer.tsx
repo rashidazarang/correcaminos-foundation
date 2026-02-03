@@ -14,7 +14,7 @@ export const Footer = () => {
 
           <div className="flex items-center gap-6">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/club_correcaminos/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gris-humo hover:text-primary transition-colors duration-300"
@@ -37,7 +37,7 @@ export const Footer = () => {
               </svg>
             </a>
             <a
-              href="https://strava.com"
+              href="https://www.strava.com/clubs/corecaminosmty"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gris-humo hover:text-primary transition-colors duration-300"
