@@ -6,6 +6,7 @@ import { z } from "zod";
 import { X, Check, Instagram } from "lucide-react";
 import heroImage from "@/assets/hero-formar-parte.webp";
 import footerImage from "@/assets/footer-formar-parte.webp";
+import { useSiteSetting } from "@/hooks/useSiteSettings";
 
 const formSchema = z.object({
   nombre: z.string().trim().min(1, "El nombre es requerido").max(100, "Máximo 100 caracteres"),
@@ -22,6 +23,7 @@ type FormData = z.infer<typeof formSchema>;
 const FormarParte = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { data: whatsappPhone } = useSiteSetting("whatsapp_phone");
   
   const textRef = useRef(null);
   const textInView = useInView(textRef, { once: true, margin: "-100px" });
@@ -39,9 +41,22 @@ const FormarParte = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted successfully");
+    const phone = whatsappPhone || "528110504295";
+    const lines = [
+      "*Solicitud — Club Correcaminos*",
+      "",
+      `*Nombre:* ${data.nombre}`,
+      `*Email:* ${data.email}`,
+      `*Ciudad:* ${data.ciudad}`,
+    ];
+    if (data.comoConociste) lines.push(`*Cómo conoció al club:* ${data.comoConociste}`);
+    if (data.miembroConocido) lines.push(`*Miembro conocido:* ${data.miembroConocido}`);
+    if (data.maratones) lines.push(`*Maratones:* ${data.maratones}`);
+    if (data.sobreTi) lines.push(`*Sobre mí:* ${data.sobreTi}`);
+
+    const message = lines.join("\n");
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
     setIsSubmitted(true);
   };
 

@@ -30,7 +30,7 @@ const MiembroCard = ({
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay }}
       onClick={onClick}
-      className="bg-white p-6 cursor-pointer transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+      className="bg-white p-4 sm:p-6 cursor-pointer transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
     >
       <div className="text-center">
         {/* Photo */}
@@ -38,15 +38,15 @@ const MiembroCard = ({
           <img
             src={miembro.fotoPerfil}
             alt={miembro.nombreCompleto}
-            className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full object-cover mx-auto mb-4 border-2 border-crema-jersey"
+            className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[150px] md:h-[150px] rounded-full object-cover mx-auto mb-4 border-2 border-crema-jersey"
           />
         ) : (
-          <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden mx-auto mb-4 border-2 border-crema-jersey">
+          <div className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden mx-auto mb-4 border-2 border-crema-jersey">
             <RunnerPlaceholder size={150} />
           </div>
         )}
 
-        <h3 className="font-display text-lg text-foreground mb-1">
+        <h3 className="font-display text-base sm:text-lg text-foreground mb-1 leading-tight">
           {miembro.nombreCompleto}
         </h3>
         <p className="font-body text-sm text-gris-humo mb-4">
@@ -57,25 +57,25 @@ const MiembroCard = ({
         <div className="w-full h-[1px] bg-gris-calzada/20 mb-4" />
 
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-3 text-left">
-          <div className="flex items-center gap-2">
-            <span>🏃</span>
-            <span className="font-body text-sm text-foreground">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 text-left">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="shrink-0">🏃</span>
+            <span className="font-body text-xs sm:text-sm text-foreground truncate">
               {miembro.maratonesTotales} maratones
             </span>
           </div>
           {miembro.prMaraton && (
-            <div className="flex items-center gap-2">
-              <span>⏱️</span>
-              <span className="font-mono text-sm text-primary">
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+              <span className="shrink-0">⏱️</span>
+              <span className="font-mono text-xs sm:text-sm text-primary truncate">
                 {miembro.prMaraton}
               </span>
             </div>
           )}
           {miembro.vecesBoston > 0 && (
-            <div className="flex items-center gap-2 col-span-2">
-              <span>🏆</span>
-              <span className="font-body text-sm text-foreground">
+            <div className="flex items-center gap-1.5 sm:gap-2 col-span-2 min-w-0">
+              <span className="shrink-0">🏆</span>
+              <span className="font-body text-xs sm:text-sm text-foreground">
                 {miembro.vecesBoston}x Boston
               </span>
             </div>
@@ -237,7 +237,7 @@ const Directorio = () => {
       <section className="bg-blanco-sal py-12 md:py-16 px-6">
         <div className="max-w-6xl mx-auto">
           {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
                 <MiembroCardSkeleton key={i} />
               ))}
@@ -249,7 +249,7 @@ const Directorio = () => {
               </p>
             </div>
           ) : filteredMiembros.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {filteredMiembros.map((miembro, index) => (
                 <MiembroCard
                   key={miembro.id}

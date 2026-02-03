@@ -17,6 +17,7 @@ import { DeleteMemberDialog } from "./DeleteMemberDialog";
 import { ImageManagerSection } from "./ImageManagerSection";
 import { BlogPostEditor } from "./BlogPostEditor";
 import { GearProductEditor } from "./GearProductEditor";
+import { SiteSettingsEditor } from "./SiteSettingsEditor";
 import type { Database } from "@/integrations/supabase/types";
 
 type MemberRow = Database["public"]["Tables"]["members"]["Row"];
@@ -83,6 +84,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <TabsTrigger value="imagenes-galeria">Imagenes Galeria</TabsTrigger>
           <TabsTrigger value="blog">Blog</TabsTrigger>
           <TabsTrigger value="gear">Mercancia</TabsTrigger>
+          <TabsTrigger value="configuracion">Configuracion</TabsTrigger>
         </TabsList>
 
         {/* Miembros Tab */}
@@ -223,6 +225,11 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         {/* Gear Tab */}
         <TabsContent value="gear">
           <GearProductEditor />
+        </TabsContent>
+
+        {/* Configuracion Tab */}
+        <TabsContent value="configuracion">
+          <SiteSettingsEditor />
         </TabsContent>
       </Tabs>
 
