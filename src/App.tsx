@@ -18,6 +18,7 @@ import Diario from "./pages/Diario";
 import DiarioPost from "./pages/DiarioPost";
 import FormarParte from "./pages/FormarParte";
 import Gear from "./pages/Gear";
+import GearProduct from "./pages/GearProduct";
 import Contacto from "./pages/Contacto";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
@@ -40,6 +41,7 @@ const AnimatedRoutes = () => {
         <Route path="/diario/:slug" element={<PageTransition><DiarioPost /></PageTransition>} />
         <Route path="/formar-parte" element={<PageTransition><FormarParte /></PageTransition>} />
         <Route path="/gear" element={<PageTransition><Gear /></PageTransition>} />
+        <Route path="/gear/:slug" element={<PageTransition><GearProduct /></PageTransition>} />
         <Route path="/contacto" element={<PageTransition><Contacto /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

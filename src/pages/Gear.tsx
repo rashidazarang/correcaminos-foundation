@@ -1,31 +1,11 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-gear.webp";
-
-interface GearItem {
-  id: number;
-  name: string;
-  description: string;
-}
-
-const gearItems: GearItem[] = [
-  {
-    id: 1,
-    name: "Camiseta Técnica Manga Corta",
-    description: "Camiseta técnica blanca con logo del club bordado. Tela de alto rendimiento con tecnología de secado rápido.",
-  },
-  {
-    id: 2,
-    name: "Camiseta Técnica Manga Larga",
-    description: "Camiseta técnica blanca manga larga para entrenamientos frescos. Ideal para las mañanas de invierno en Monterrey.",
-  },
-  {
-    id: 3,
-    name: "Gorra Técnica Premium",
-    description: "Gorra técnica de marca premium (Adidas, Nike o similar). Diseño exclusivo del club con protección UV.",
-  },
-];
+import { useGearProducts } from "@/hooks/useGearProducts";
 
 const Gear = () => {
+  const { data: products, isLoading } = useGearProducts();
+
   return (
     <>
       {/* Hero Section */}
@@ -63,36 +43,50 @@ const Gear = () => {
             transition={{ duration: 0.6 }}
             className="font-body text-xl text-foreground text-center mb-16 max-w-3xl mx-auto"
           >
-            Al unirte al club, recibes tu kit oficial para representar a Correcaminos 
+            Al unirte al club, recibes tu kit oficial para representar a Correcaminos
             en cada entrenamiento y carrera.
           </motion.p>
 
           {/* Products Grid */}
-          <div className="grid md:grid-cols-3 gap-8 md:gap-10">
-            {gearItems.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.15 }}
-                className="text-center"
-              >
-                {/* Product Image Placeholder */}
-                <div className="aspect-square bg-crema-jersey mb-6 flex items-center justify-center">
-                  <span className="font-body text-gris-humo">Imagen</span>
-                </div>
+          {isLoading ? (
+            <p className="text-center text-muted-foreground">Cargando productos...</p>
+          ) : !products?.length ? (
+            <p className="text-center text-muted-foreground">No hay productos todavia.</p>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-8 md:gap-10">
+              {products.map((product, index) => (
+                <Link key={product.id} to={`/gear/${product.slug}`}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.15 }}
+                    className="text-center group cursor-pointer"
+                  >
+                    <div className="aspect-square bg-crema-jersey mb-6 overflow-hidden flex items-center justify-center">
+                      {product.image_url ? (
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <span className="font-body text-gris-humo">Imagen</span>
+                      )}
+                    </div>
 
-                <h3 className="font-display text-xl text-foreground mb-3">
-                  {item.name}
-                </h3>
+                    <h3 className="font-display text-xl text-foreground mb-3 transition-colors duration-300 group-hover:text-primary">
+                      {product.name}
+                    </h3>
 
-                <p className="font-body text-base text-gris-humo leading-relaxed">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+                    <p className="font-body text-base text-gris-humo leading-relaxed line-clamp-2">
+                      {product.description}
+                    </p>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Note */}
           <motion.p
