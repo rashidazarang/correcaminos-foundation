@@ -59,12 +59,17 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   };
 
   return (
-    <div className="min-h-[60vh] px-4 py-8 max-w-7xl mx-auto">
+    <div className="min-h-screen pt-24 md:pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-display font-bold">
-          Panel de Administracion
-        </h1>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+            Panel de Administracion
+          </h1>
+          <p className="font-body text-sm text-muted-foreground mt-1">
+            Gestiona el contenido del sitio
+          </p>
+        </div>
         <Button onClick={onLogout} variant="outline" size="sm">
           <LogOut className="h-4 w-4 mr-1" />
           Salir
@@ -72,7 +77,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       </div>
 
       <Tabs defaultValue="miembros" className="space-y-6">
-        <TabsList>
+        <TabsList className="flex-wrap h-auto gap-1 p-1">
           <TabsTrigger value="miembros">Miembros</TabsTrigger>
           <TabsTrigger value="imagenes-home">Imagenes Home</TabsTrigger>
           <TabsTrigger value="imagenes-galeria">Imagenes Galeria</TabsTrigger>
