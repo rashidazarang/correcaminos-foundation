@@ -127,7 +127,7 @@ export const Header = () => {
                   transition: { staggerChildren: 0.03, staggerDirection: -1 },
                 },
               }}
-              className="flex flex-col items-center gap-5 sm:gap-6 md:gap-8 px-6 max-h-[80vh] overflow-y-auto"
+              className="flex flex-col items-center gap-6 sm:gap-6 md:gap-8 px-6 max-h-[80vh] overflow-y-auto"
             >
               {navLinks.map((link) => (
                 <motion.li
@@ -139,7 +139,7 @@ export const Header = () => {
                 >
                   <Link
                     to={link.path}
-                    className={`font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-blanco-sal relative group transition-colors duration-300 focus-visible:outline-offset-4 ${
+                    className={`font-display text-3xl sm:text-3xl md:text-4xl lg:text-5xl text-blanco-sal relative group transition-colors duration-300 focus-visible:outline-offset-4 ${
                       location.pathname === link.path ? "text-primary" : "hover:text-primary"
                     }`}
                   >
