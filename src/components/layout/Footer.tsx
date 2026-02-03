@@ -66,6 +66,20 @@ export const Footer = () => {
             </Link>
           </div>
         </div>
+
+        <div className="mt-10 pt-6 border-t border-gris-humo/10 text-center">
+          <span className="font-body text-[11px] tracking-wide text-gris-humo/30">
+            Hecho por{" "}
+            <a
+              href="https://rashidazarang.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gris-humo/50 transition-colors duration-300"
+            >
+              Rashid Azarang
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   );
