@@ -18,6 +18,7 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const location = useLocation();
+  const isLightPage = location.pathname === "/admin";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,12 +48,14 @@ export const Header = () => {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          hasScrolled
-            ? "bg-negro-asfalto shadow-lg"
-            : "bg-transparent"
+          isLightPage
+            ? "bg-blanco-sal shadow-sm"
+            : hasScrolled
+              ? "bg-negro-asfalto shadow-lg"
+              : "bg-transparent"
         }`}
         style={
-          hasScrolled && !isMenuOpen
+          !isLightPage && hasScrolled && !isMenuOpen
             ? { backgroundColor: "hsl(0 0% 10% / 0.92)", backdropFilter: "blur(12px)" }
             : undefined
         }
@@ -60,7 +63,9 @@ export const Header = () => {
         <div className="flex items-center justify-between px-6 md:px-12 lg:px-20 h-16 md:h-20">
           <Link
             to="/"
-            className="font-display text-xl md:text-2xl font-medium tracking-wide text-blanco-sal transition-colors duration-300 focus-visible:outline-offset-4"
+            className={`font-display text-xl md:text-2xl font-medium tracking-wide transition-colors duration-300 focus-visible:outline-offset-4 ${
+              isLightPage && !isMenuOpen ? "text-negro-asfalto" : "text-blanco-sal"
+            }`}
           >
             CORRECAMINOS
           </Link>
@@ -75,21 +80,27 @@ export const Header = () => {
                 rotate: isMenuOpen ? 45 : 0,
                 y: isMenuOpen ? 6 : 0,
               }}
-              className="block w-6 h-0.5 bg-blanco-sal origin-center"
+              className={`block w-6 h-0.5 origin-center ${
+                isLightPage && !isMenuOpen ? "bg-negro-asfalto" : "bg-blanco-sal"
+              }`}
             />
             <motion.span
               animate={{
                 opacity: isMenuOpen ? 0 : 1,
                 scaleX: isMenuOpen ? 0 : 1,
               }}
-              className="block w-6 h-0.5 bg-blanco-sal"
+              className={`block w-6 h-0.5 ${
+                isLightPage && !isMenuOpen ? "bg-negro-asfalto" : "bg-blanco-sal"
+              }`}
             />
             <motion.span
               animate={{
                 rotate: isMenuOpen ? -45 : 0,
                 y: isMenuOpen ? -6 : 0,
               }}
-              className="block w-6 h-0.5 bg-blanco-sal origin-center"
+              className={`block w-6 h-0.5 origin-center ${
+                isLightPage && !isMenuOpen ? "bg-negro-asfalto" : "bg-blanco-sal"
+              }`}
             />
           </button>
         </div>
