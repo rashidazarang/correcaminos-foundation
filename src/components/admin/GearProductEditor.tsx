@@ -203,7 +203,7 @@ export function GearProductEditor() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Productos</h2>
+        <h2 className="text-lg font-semibold">Mercancia</h2>
         <Button onClick={openCreate} size="sm">
           <Plus className="h-4 w-4 mr-1" />
           Nuevo Producto
