@@ -82,7 +82,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
           <TabsTrigger value="imagenes-home">Imagenes Home</TabsTrigger>
           <TabsTrigger value="imagenes-galeria">Imagenes Galeria</TabsTrigger>
           <TabsTrigger value="blog">Blog</TabsTrigger>
-          <TabsTrigger value="gear">Gear</TabsTrigger>
+          <TabsTrigger value="gear">Productos</TabsTrigger>
         </TabsList>
 
         {/* Miembros Tab */}
